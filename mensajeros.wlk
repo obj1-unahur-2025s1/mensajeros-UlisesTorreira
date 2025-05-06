@@ -5,8 +5,7 @@ object paquete {
   method pagarPaquete() {estaPago = true}
   method puedeEntregarse(unMensajero){
     return
-    destino.dejaPasar(unMensajero) &&
-    self.estaPago()}
+    destino.dejaPasar(unMensajero) and self.estaPago()}
 }
 
 object paquetito {
@@ -79,21 +78,28 @@ object camion {
 object empresaMensajeria {
   const mensajeros = #{}
   method mensajeros() = mensajeros
+  //Contratar a un mensajero
   method contratar(unMensajero){
     mensajeros.add(unMensajero)
   }
+  //Despedir a un mensajero
   method despedir(unMensajero){
     mensajeros.remove(unMensajero)
   }
+  //Despedir a todos los mensajeros
+  method despedirTodos(){
+    mensajeros.clear()
+  }
+  //Analizar si la mensajeriaa es grande (si tiene mas de dos mensajeros)
   method esGrande() = mensajeros.size() > 2
-
+  //Consultar si el paquete puede ser entregado por el primer empleado de la empresa  
   method puedeEntregarsePaquete() {
     return
     paquete.puedeEntregarse(mensajeros.first())
   }
-
+  //Saber el peso del último mensajero de la empresa
   method pesoUltimoMensajero() = mensajeros.last().peso()
-
+  //Hacer al menos un test por cada punto de los anteriores que demuestre
   method puedeEntregarse(unPaquete){
     return
     mensajeros.any({m => unPaquete.puedeEntregarse()})
@@ -137,10 +143,4 @@ object empresaMensajeria {
     return
     paquetesPendientes.max({p => p.precioTotal()})
   }
-
-
-
-
 }
-
- 
